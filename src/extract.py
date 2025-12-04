@@ -8,14 +8,14 @@ load_dotenv()
 
 
 def extract(event):
+    try:
+        params = event["params"]
+        headers = event["api_key"]
+        url = event["url"]
 
-    params = event["params"]
-    headers = event["api_key"]
-    url = event["url"]
+        response = requests.get(url, headers=headers, params=params)
 
-    response = requests.get(url, headers=headers, params=params)
-
-    return response
-
-
-
+        return response
+    
+    except requests.exceptions.RequestException as e:
+        return str(e)
