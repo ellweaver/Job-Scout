@@ -46,3 +46,22 @@ class TestExtract:
             headers={"x-api-key": "TEST KEY"},
             params={"query": "junior python"},
         )
+
+    @pytest.mark.it("test that request error is correctly handled")
+    def test_request_error_handling(self, monkeypatch):
+        event = {
+            "url": "https://api.openwebninja.com/jsearch/search",
+            "api_key": {"x-api-key": "TEST KEY"},
+            "params": {"query": "junior python"},
+        }
+        
+        def timeout_error(*args, **kwargs):
+            raise requests.exceptions.Timeout("Timeout error")
+
+        mock = timeout_error
+
+        monkeypatch.setattr(requests, "get", mock)
+
+        response = extract(event)
+
+        assert response == "Timeout error"
