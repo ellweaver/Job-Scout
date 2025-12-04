@@ -17,7 +17,7 @@ def perform_search(
     Turns Json File into event string and inputs string into extract function.
     """
     search_filepath = search_directory + search_filename
-    validation= validate_search_file(search_directory=search_directory, file_name=search_filename)
+    validation = validate_search_file(search_directory=search_directory, file_name=search_filename)
     if validation["valid"]:
         with open(search_filepath) as f:
             event = json.load(f)
